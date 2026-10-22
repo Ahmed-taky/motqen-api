@@ -30,11 +30,21 @@ export default async function (method: Method, OTP: string, phoneNumber: string)
   }
 }
 
-const client = twilio(accountSid, authToken);
+let client: ReturnType<typeof twilio> | null = null;
+
+const getClient = () => {
+  if (!client) {
+    if (!accountSid || !authToken) {
+      throw new AppError('Twilio credentials are not configured', 500);
+    }
+    client = twilio(accountSid, authToken);
+  }
+  return client;
+};
 
 export async function sendViaSMS(message: string, to: string) {
   try {
-    const messageResponse = await client.messages.create({
+    const messageResponse = await getClient().messages.create({
       body: message,
       from: virtualNumber,
       to: to,

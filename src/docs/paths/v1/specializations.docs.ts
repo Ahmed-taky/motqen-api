@@ -118,7 +118,7 @@ export default function registerSpecializationsDocs(registry: OpenAPIRegistry) {
     tags: ['Specializations'],
     summary: 'Create specialization (Admin)',
     description: 'Creates a new specialization. Requires admin access token.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: CreateSpecializationQuerySchema,
@@ -149,7 +149,7 @@ export default function registerSpecializationsDocs(registry: OpenAPIRegistry) {
     tags: ['Specializations'],
     summary: 'Update specialization (Admin)',
     description: 'Updates an existing specialization by UUID. Requires admin access token.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: UpdateSpecializationQuerySchema,
@@ -181,7 +181,7 @@ export default function registerSpecializationsDocs(registry: OpenAPIRegistry) {
     tags: ['Specializations'],
     summary: 'Delete specialization (Admin)',
     description: 'Deletes a specialization by UUID. Requires admin access token.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: DeleteSpecializationQuerySchema,
@@ -210,7 +210,7 @@ export default function registerSpecializationsDocs(registry: OpenAPIRegistry) {
     summary: 'Create sub-specialization (Admin)',
     description:
       'Creates a new sub-specialization under a parent specialization. Requires admin access token.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: CreateSubSpecializationQuerySchema,
@@ -243,7 +243,7 @@ export default function registerSpecializationsDocs(registry: OpenAPIRegistry) {
     summary: 'Delete sub-specialization (Admin)',
     description:
       'Deletes a sub-specialization by UUID under a parent specialization. Requires admin access token.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: DeleteSubSpecializationQuerySchema,

@@ -25,15 +25,11 @@ export const VerifyOTPResponseSchema = SuccessResponseSchema(z.object({
 export type VerifyOTPResponseDTO = z.infer<typeof VerifyOTPResponseSchema>;
 
 export const LoginResponseSchema = SuccessResponseSchema(z.object({
-  accessToken: z.string(),
-  refreshToken: z.string(),
   user: UserViewSchema,
 }),);
 export type LoginResponseDTO = z.infer<typeof LoginResponseSchema>;
 
-export const AccessTokenResponseSchema = SuccessResponseSchema(z.object({
-  accessToken: z.string(),
-}),);
+export const AccessTokenResponseSchema = SuccessResponseSchema(z.object({}),);
 export type AccessTokenResponseDTO = z.infer<typeof AccessTokenResponseSchema>;
 
 export const ReviewStatusResponseSchema = SuccessResponseSchema(z.object({
@@ -46,8 +42,6 @@ export const RegisterClientResponseSchema = SuccessResponseSchema(
   z.object({
     user: UserViewSchema,
     clientProfile: ClientProfileViewSchema.describe('ClientProfile object'),
-    accessToken: z.string(),
-    refreshToken: z.string(),
   })
 );
 export type RegisterClientResponseDTO = z.infer<typeof RegisterClientResponseSchema>;
@@ -56,8 +50,6 @@ export const RegisterWorkerResponseSchema = SuccessResponseSchema(
   z.object({
     user: UserViewSchema,
     workerProfile: WorkerProfileViewSchema.describe('WorkerProfile object'),
-    accessToken: z.string(),
-    refreshToken: z.string(),
   })
 );
 export type RegisterWorkerResponseDTO = z.infer<typeof RegisterWorkerResponseSchema>;

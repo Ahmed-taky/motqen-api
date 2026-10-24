@@ -110,7 +110,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Get current user',
     description: "Returns the authenticated user's profile information.",
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: GetUserQuerySchema,
@@ -136,7 +136,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Update current user',
     description: "Updates the authenticated user's basic info. All fields are optional.",
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: UpdateUserQuerySchema,
@@ -177,7 +177,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     summary: 'Create worker profile',
     description:
       'Creates a worker profile for the authenticated user (who must not already be a worker). Send as multipart/form-data with three required image files.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: CreateWorkerProfileQuerySchema,
@@ -230,7 +230,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     summary: 'Get Craftsman Profile Details',
     description:
       'Returns the complete profile of the authenticated craftsman/worker. Includes experience, specializations, operating governments, rating, badges, verification status, and portfolio. User must be registered as a Worker.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: GetWorkerProfileQuerySchema,
@@ -258,7 +258,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     summary: 'Get Craftsman orders count: cancelled, completed, pending, today',
     description:
       'Returns the number of orders for the authenticated craftsman/worker. User must be registered as a Worker.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: GetWorkerOrdersStatisticsQuerySchema,
@@ -285,7 +285,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Get worker working hours',
     description: 'Returns the current working-hours schedule for the authenticated worker.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: GetWorkerWorkingHoursQuerySchema,
@@ -313,7 +313,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     summary: 'Set worker working hours',
     description:
       'creates the working-hours of input days schedule for the authenticated worker. It does not replace the schedule of already set days.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: AddWorkerDaysWorkingHoursQuerySchema,
@@ -345,7 +345,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     summary: 'Set worker working hours',
     description:
       'deletes the working-hours of input days schedule for the authenticated worker. It does not delete the schedule of days which periods are already used for orders.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: RemoveWorkerWorkingDaysQuerySchema,
@@ -376,7 +376,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Update worker profile',
     description: "Updates the authenticated worker's profile. All fields are optional.",
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: UpdateWorkerProfileQuerySchema,
@@ -407,7 +407,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Get worker governments',
     description: 'Returns the list of governments where the authenticated worker operates.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: GetWorkerGovernmentsQuerySchema,
@@ -434,7 +434,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Add worker governments',
     description: 'Adds governments where the authenticated worker operates.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: AddWorkerGovernmentsQuerySchema,
@@ -466,7 +466,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     summary: 'Delete worker governments',
     description:
       "Removes governments from the authenticated worker's operating regions. Pass `all=true` query to remove all.",
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: DeleteWorkerGovernmentsQuerySchema,
@@ -497,7 +497,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Get worker specializations and their sub-specializations',
     description: 'Returns the list of specializations and chosen sub-specializations for the authenticated worker.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: GetWorkerSpecializationsTreeQuerySchema,
@@ -524,7 +524,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Get worker specializations',
     description: 'Returns the list of specializations for the authenticated worker.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       body: {
@@ -554,7 +554,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Add worker specializations',
     description: 'Adds specializations for the authenticated worker.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: AddWorkerSpecializationsQuerySchema,
@@ -586,7 +586,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     summary: 'Delete worker specializations and subspecializations',
     description:
       'Removes specializations from the authenticated worker. Pass `all=true` to remove all, or `allSub=true` to remove all sub-specializations.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: DeleteWorkerSpecializationsQuerySchema,
@@ -616,7 +616,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Get worker verification status',
     description: 'Returns the verification status and details for the authenticated worker.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: GetVerificationQuerySchema,
@@ -642,7 +642,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Resubmit worker verification',
     description: 'Resubmits verification images for the authenticated worker. Requires `id_image` and `personal_with_id_image`.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: ResubmitVerificationQuerySchema,
@@ -687,7 +687,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Create worker portfolio',
     description: 'Creates a portfolio for the authenticated worker.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: CreatePortfolioQuerySchema,
@@ -716,7 +716,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Get worker portfolio',
     description: 'Returns the portfolio for the authenticated worker.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: GetPortfolioQuerySchema,
@@ -742,7 +742,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Update worker portfolio',
     description: 'Updates the portfolio description for the authenticated worker.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: UpdatePortfolioQuerySchema,
@@ -771,7 +771,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Add portfolio images',
     description: 'Uploads images to the authenticated worker\'s portfolio. Pass images in the `images` form data field.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: AddPortfolioImagesQuerySchema,
@@ -811,7 +811,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Delete portfolio image',
     description: 'Deletes an image from the authenticated worker\'s portfolio.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: DeletePortfolioImageQuerySchema,
@@ -837,7 +837,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Get worker stats',
     description: 'Returns statistics like ratings and completed jobs for the authenticated worker.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     responses: createResponseDoc({
       successfulResponse: {
@@ -859,7 +859,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Get worker badges',
     description: 'Returns the badges earned by the authenticated worker.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     responses: createResponseDoc({
       successfulResponse: {
@@ -881,7 +881,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Get worker occupied time slots',
     description: 'Returns the time slots that are currently occupied for the authenticated worker for a specific date.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: GetWorkerOccupiedTimeSlotsQuerySchema,
@@ -909,7 +909,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     summary: 'Create client profile',
     description:
       'Creates a client profile for the authenticated user (who must not already be a client).',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: CreateClientProfileQuerySchema,
@@ -939,7 +939,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
     tags: ['Dashboard'],
     summary: 'Get client profile',
     description: "Returns the authenticated client's profile. User must have a client profile.",
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     responses: createResponseDoc({
       successfulResponse: {
@@ -962,7 +962,7 @@ export default function registerDashboardDocs(registry: OpenAPIRegistry) {
   //   tags: ['Dashboard'],
   //   summary: 'Update client profile',
   //   description: "Updates the authenticated client's profile. All fields are optional.",
-  //   security: [{ BearerAuth: [] }],
+  //   security: [{ CookieAuth: [] }],
   //   parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
   //   request: {
   //     body: {

@@ -62,7 +62,7 @@ export default function registerOrdersDocs(registry: OpenAPIRegistry) {
     summary: 'Create a new order',
     description:
       'Creates a new service order. Requires an active client profile. Accepts up to 3 images as multipart/form-data alongside JSON fields.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       body: {
@@ -106,7 +106,7 @@ export default function registerOrdersDocs(registry: OpenAPIRegistry) {
     summary: 'List orders',
     description:
       'Returns a paginated list of orders for the authenticated user. Clients see their own orders; workers see orders assigned to them.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: GetOrdersQuerySchema,
@@ -133,7 +133,7 @@ export default function registerOrdersDocs(registry: OpenAPIRegistry) {
     summary: 'Get order by ID',
     description:
       'Returns a single order by its UUID. Accessible by the client who created it or the assigned worker.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: GetOrderByIdQuerySchema,
@@ -163,7 +163,7 @@ export default function registerOrdersDocs(registry: OpenAPIRegistry) {
     summary: 'Get the location assigned to order by ID',
     description:
       'Returns the location assigned to the order. Accessible by the client who created it or the assigned worker.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: GetOrderLocationQuerySchema,
@@ -193,7 +193,7 @@ export default function registerOrdersDocs(registry: OpenAPIRegistry) {
     summary: 'Cancel an order',
     description:
       'Cancels an order. Only the client who created it can cancel, and only while the order is in a cancellable state (e.g. PENDING or ACCEPTED).',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: CancelOrderQuerySchema,
@@ -224,7 +224,7 @@ export default function registerOrdersDocs(registry: OpenAPIRegistry) {
     summary: 'Start work on an order',
     description:
       'Transitions the order to IN_PROGRESS. Only the assigned worker can perform this action, and only when the order is in the correct state.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: StartWorkQuerySchema,
@@ -255,7 +255,7 @@ export default function registerOrdersDocs(registry: OpenAPIRegistry) {
     summary: 'Finish work on an order',
     description:
       'Transitions the order to COMPLETED. Only the assigned worker can perform this action, and only when the order is IN_PROGRESS.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: FinishWorkQuerySchema,
@@ -281,7 +281,7 @@ export default function registerOrdersDocs(registry: OpenAPIRegistry) {
     tags: ['Orders'],
     summary: 'Rate an order',
     description: '',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: RateOrderQuerySchema,
@@ -312,7 +312,7 @@ export default function registerOrdersDocs(registry: OpenAPIRegistry) {
     tags: ['Orders'],
     summary: 'List negotiations for a direct order',
     description: 'Retrieves the negotiation thread for a direct order (where proposalId is implicitly resolved).',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: GetNegotiationsQuerySchema,
@@ -341,7 +341,7 @@ export default function registerOrdersDocs(registry: OpenAPIRegistry) {
     tags: ['Orders'],
     summary: 'Create a negotiation offer for a direct order',
     description: 'Creates a new negotiation offer (counter-offer) for a direct order. If omitted, startDate and estimatedDurationHours are inherited from the previous offer. The response includes a hasOverlapWarning boolean flag indicating if the proposed time overlaps with the worker\'s other occupied time slots.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: CreateNegotiationQuerySchema,
@@ -372,7 +372,7 @@ export default function registerOrdersDocs(registry: OpenAPIRegistry) {
     tags: ['Orders'],
     summary: 'Accept the latest pending negotiation on a direct order',
     description: 'Accepts the latest pending counter-offer on a direct order. This finalizes the price, start date, and duration, transitioning the order to PRICE_AGREED.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: AcceptNegotiationQuerySchema,
@@ -402,7 +402,7 @@ export default function registerOrdersDocs(registry: OpenAPIRegistry) {
     tags: ['Orders'],
     summary: 'Reject the latest pending negotiation on a direct order',
     description: 'Rejects the latest pending counter-offer on a direct order without proposing a new one.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: RejectNegotiationQuerySchema,
@@ -431,7 +431,7 @@ export default function registerOrdersDocs(registry: OpenAPIRegistry) {
     tags: ['Orders'],
     summary: 'Cancel the latest pending negotiation on a direct order',
     description: 'Cancels the latest pending owned offer on a direct order without proposing a new one.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: CancelNegotiationQuerySchema,

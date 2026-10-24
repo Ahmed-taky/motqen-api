@@ -35,7 +35,7 @@ export default function registerReportsDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/reports',
     tags: [TAG],
     summary: 'Submit a report or complaint',
-    security: [{ bearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: CreateReportQuerySchema,
@@ -77,7 +77,7 @@ export default function registerReportsDocs(registry: OpenAPIRegistry) {
     tags: [TAG],
     summary: 'List reports',
     description: 'Retrieves a list of reports. Reporters see only their own; Admins see all.',
-    security: [{ bearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: GetReportsQuerySchema,
@@ -97,7 +97,7 @@ export default function registerReportsDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/reports/{reportId}',
     tags: [TAG],
     summary: 'Get a report by ID',
-    security: [{ bearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: GetReportByIdQuerySchema,
@@ -120,7 +120,7 @@ export default function registerReportsDocs(registry: OpenAPIRegistry) {
     tags: [TAG],
     summary: 'Update a PENDING report',
     description: 'Update the description and replace images of an existing PENDING report.',
-    security: [{ bearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: UpdateReportQuerySchema,
@@ -161,7 +161,7 @@ export default function registerReportsDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/reports/{reportId}',
     tags: [TAG],
     summary: 'Cancel a PENDING report',
-    security: [{ bearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: CancelReportQuerySchema,
@@ -180,7 +180,7 @@ export default function registerReportsDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/reports/{reportId}/status',
     tags: [TAG],
     summary: 'Update report status (Admin only)',
-    security: [{ bearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: UpdateReportStatusQuerySchema,

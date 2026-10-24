@@ -12,7 +12,7 @@ export default function registerPaymentsDocs(registry: OpenAPIRegistry) {
     summary: 'Get payment iframe URL',
     description:
       "Generates a Paymob payment iframe URL for the specified order. The authenticated user must be the order's client.",
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       params: OrderIdParamsSchema,

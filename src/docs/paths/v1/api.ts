@@ -13,6 +13,7 @@ import registerFinancialDocs from './financial.docs.js';
 import registerNotificationsDocs from './notifications.docs.js';
 import registerReportsDocs from './reports.docs.js';
 import registerProposalsDocs from './proposals.docs.js';
+import environment from '../../../configs/environment.js';
 
 export const registryV1 = new OpenAPIRegistry();
 
@@ -35,6 +36,13 @@ registryV1.registerComponent('securitySchemes', 'BearerAuth', {
   type: 'http',
   scheme: 'bearer',
   bearerFormat: 'JWT',
+});
+
+registryV1.registerComponent('securitySchemes', 'CookieAuth', {
+  type: 'apiKey',
+  in: 'cookie',
+  name: environment.cookies.accessTokenName,
+  description: 'Access token stored in an httpOnly cookie — set automatically on login/registration',
 });
 
 registryV1.registerComponent('parameters', 'DeviceFingerprint', {

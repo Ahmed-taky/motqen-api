@@ -119,7 +119,7 @@ Each worker includes userInfo, location (with nested city/government), specializ
     tags: ['Workers'],
     summary: 'Get worker occupied time slots',
     description: 'Returns the occupied time slots for the worker on a specific date.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       params: GetWorkerOccupiedTimeSlotsParamsSchema,
@@ -146,7 +146,7 @@ Each worker includes userInfo, location (with nested city/government), specializ
     tags: ['Workers'],
     summary: 'Get worker working hours',
     description: 'Returns the current working-hours schedule for the explored worker.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: GetWorkerWorkingHoursQuerySchema,

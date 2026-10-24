@@ -45,7 +45,7 @@ export default function registerLocationsDocs(registry: OpenAPIRegistry) {
     tags: ['Locations'],
     summary: 'Get all my locations',
     description: 'Returns a list of all locations belonging to the authenticated user.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: GetLocationsQuerySchema,
@@ -71,7 +71,7 @@ export default function registerLocationsDocs(registry: OpenAPIRegistry) {
     tags: ['Locations'],
     summary: 'Add a new location',
     description: 'Adds a new location for the authenticated user.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: CreateLocationQuerySchema,
@@ -101,7 +101,7 @@ export default function registerLocationsDocs(registry: OpenAPIRegistry) {
     tags: ['Locations'],
     summary: 'Get main location',
     description: 'Returns the main location for the authenticated user.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: GetMainLocationQuerySchema,
@@ -128,7 +128,7 @@ export default function registerLocationsDocs(registry: OpenAPIRegistry) {
     tags: ['Locations'],
     summary: 'Update main location',
     description: 'Updates the main location for the authenticated user.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: UpdateMainLocationQuerySchema,
@@ -159,7 +159,7 @@ export default function registerLocationsDocs(registry: OpenAPIRegistry) {
     tags: ['Locations'],
     summary: 'Get location by ID',
     description: 'Returns a single location by its UUID.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: GetLocationByIdQuerySchema,
@@ -188,7 +188,7 @@ export default function registerLocationsDocs(registry: OpenAPIRegistry) {
     tags: ['Locations'],
     summary: 'Update location by ID',
     description: 'Updates an existing location by its UUID.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: UpdateLocationQuerySchema,
@@ -220,7 +220,7 @@ export default function registerLocationsDocs(registry: OpenAPIRegistry) {
     tags: ['Locations'],
     summary: 'Set location to be main by ID',
     description: 'Sets an existing location to be main by its UUID.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: SetMainLocationQuerySchema,
@@ -249,7 +249,7 @@ export default function registerLocationsDocs(registry: OpenAPIRegistry) {
     tags: ['Locations'],
     summary: 'Delete location by ID',
     description: 'Deletes an existing location by its UUID.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: DeleteLocationQuerySchema,

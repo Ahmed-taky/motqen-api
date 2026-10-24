@@ -35,30 +35,8 @@ import ClientProfileRepository from '../repositories/prisma/ClientRepository.js'
 import GovernmentRepository from '../repositories/prisma/GovernmentRepository.js';
 import { TransactionManager } from 'src/repositories/prisma/TransactionManager.js';
 import { redisClearCache } from 'src/utils/redis.js';
+import { parseExpiryToSeconds } from 'src/utils/duration.js';
 const MAX_VERIFY_ATTEMPTS = 5;
-
-/**
- * Convert JWT-style expiry string (e.g. '7d', '24h', '15m') to seconds
- */
-function parseExpiryToSeconds(expiresIn: string): number {
-  const match = expiresIn.match(/^(\d+)(s|m|h|d|w)$/);
-  if (!match) return 3600;
-  const num = parseInt(match[1]);
-  switch (match[2]) {
-    case 's':
-      return num;
-    case 'm':
-      return num * 60;
-    case 'h':
-      return num * 60 * 60;
-    case 'd':
-      return num * 60 * 60 * 24;
-    case 'w':
-      return num * 60 * 60 * 24 * 7;
-    default:
-      return 3600;
-  }
-}
 
 interface InputUserType {
   phoneNumber: string;
@@ -541,7 +519,7 @@ export default class AuthService extends Service {
         token: hashedToken,
 
         // TODO: Find usage of those and fill them or remove them
-        fcmToken: "",
+        fcmToken: '',
       },
     });
 
@@ -570,7 +548,9 @@ export default class AuthService extends Service {
     const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
     const consumed = await this.tokenCache.consumeToken('register', tokenHash);
     if (!consumed) {
-      throw new AppError('Register token already used or expired', 401);
+      throw new AppError('Register token already used or expired', 401, {
+        toJSON: () => ({ reAuthNeeded: true }),
+      });
     }
 
     try {
@@ -612,7 +592,7 @@ export default class AuthService extends Service {
    */
   async logout(params: { userId: IDType; deviceId: string }): Promise<void> {
     try {
-      console.log("userId to be revoked: ", params.userId)
+      console.log('userId to be revoked: ', params.userId);
       await this.sessionRepository.revoke({
         filter: {
           userId: params.userId,

@@ -44,6 +44,15 @@ const jwt = {
   },
 };
 
+const cookies = {
+  accessTokenName: process.env.COOKIE_ACCESS_TOKEN_NAME || 'motqen_access_token',
+  refreshTokenName: process.env.COOKIE_REFRESH_TOKEN_NAME || 'motqen_refresh_token',
+  sameSite: (process.env.COOKIE_SAME_SITE || 'lax') as 'lax' | 'strict' | 'none',
+  secure: process.env.COOKIE_SECURE === 'true' || nodeEnv === 'production',
+  domain: process.env.COOKIE_DOMAIN || undefined,
+  path: process.env.COOKIE_PATH || '/',
+};
+
 const api = {
   baseUrl: process.env.API_BASE_URL,
   version: process.env.API_VERSION || 'v1',
@@ -118,6 +127,7 @@ const environment = {
   redis,
   database,
   jwt,
+  cookies,
   api,
   logging,
   cloudinary,

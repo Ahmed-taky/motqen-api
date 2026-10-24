@@ -29,7 +29,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     tags: ['Withdrawals (Admin)'],
     summary: 'List withdraw requests (admin)',
     description: 'Requires admin access.',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     request: {
       query: listWithdrawRequestsQuerySchema,
     },
@@ -48,7 +48,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/admin/withdraw-requests/{id}/start-processing',
     tags: ['Withdrawals (Admin)'],
     summary: 'Start processing a withdrawal (PENDING → IN_PROGRESS)',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     request: { params: idParamsSchema },
     responses: createResponseDoc({
       successfulResponse: { description: 'Processing started' },
@@ -62,7 +62,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/admin/withdraw-requests/{id}/reject',
     tags: ['Withdrawals (Admin)'],
     summary: 'Reject withdraw request',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     request: {
       params: idParamsSchema,
       body: { content: { 'application/json': { schema: rejectWithdrawRequestBodySchema } } },
@@ -79,7 +79,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/admin/payout-executions/{id}/complete',
     tags: ['Withdrawals (Admin)'],
     summary: 'Complete payout execution (requires proof of payment)',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     request: {
       params: idParamsSchema,
       body: {
@@ -101,7 +101,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/admin/payout-executions/{id}/fail',
     tags: ['Withdrawals (Admin)'],
     summary: 'Mark payout execution as failed',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     request: {
       params: idParamsSchema,
       body: { content: { 'application/json': { schema: failPayoutBodySchema } } },
@@ -118,7 +118,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/admin/worker-debts',
     tags: ['Withdrawals (Admin)'],
     summary: 'List worker debts',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     request: {
       query: listDebtsQuerySchema,
     },
@@ -137,7 +137,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/admin/worker-debts/{id}/settle',
     tags: ['Withdrawals (Admin)'],
     summary: 'Settle worker debt',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     request: { params: idParamsSchema },
     responses: createResponseDoc({
       successfulResponse: { description: 'Debt settled' },
@@ -151,7 +151,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/admin/disputes',
     tags: ['Disputes'],
     summary: 'List disputes',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     responses: createResponseDoc({
       successfulResponse: {
         description: 'List of disputes',
@@ -167,7 +167,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/admin/orders/{orderId}/refunds',
     tags: ['Refunds'],
     summary: 'Initiate refund (admin)',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     request: {
       params: z.object({ orderId: UUIDSchema }),
       body: { content: { 'application/json': { schema: initiateRefundSchema } } },
@@ -187,7 +187,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/admin/orders/{orderId}/refunds',
     tags: ['Refunds'],
     summary: 'List refunds for an order',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     request: {
       params: z.object({ orderId: UUIDSchema }),
     },
@@ -207,7 +207,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     tags: ['Worker Earnings'],
     summary: 'Get my earnings balance',
     description: "Returns the authenticated worker's earnings balance breakdown",
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     responses: createResponseDoc({
       successfulResponse: {
@@ -229,7 +229,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/workers/me/earnings/withdraw-requests',
     tags: ['Worker Earnings'],
     summary: 'List my withdraw requests',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: listWithdrawRequestsQuerySchema.omit({ workerProfileId: true }),
@@ -252,7 +252,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/workers/me/earnings/withdraw-requests',
     tags: ['Worker Earnings'],
     summary: 'Create withdraw request',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: { body: { content: { 'application/json': { schema: withdrawRequestSchema } } } },
     responses: createResponseDoc({
@@ -275,7 +275,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/workers/me/earnings/withdraw-requests/{id}',
     tags: ['Worker Earnings'],
     summary: 'Get a single withdraw request',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       params: z.object({ id: UUIDSchema }),
@@ -299,7 +299,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/workers/me/earnings/payout-methods',
     tags: ['Worker Earnings'],
     summary: 'List my payout methods',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     responses: createResponseDoc({
       successfulResponse: {
@@ -319,7 +319,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/workers/me/earnings/payout-methods',
     tags: ['Worker Earnings'],
     summary: 'Add payout method',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: { body: { content: { 'application/json': { schema: payoutMethodSchema } } } },
     responses: createResponseDoc({
@@ -341,7 +341,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/workers/me/earnings/payout-methods/{id}',
     tags: ['Worker Earnings'],
     summary: 'Update a payout method',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       params: z.object({ id: UUIDSchema }),
@@ -367,7 +367,7 @@ export default function registerFinancialDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/workers/me/earnings/payout-methods/{id}',
     tags: ['Worker Earnings'],
     summary: 'Delete a payout method',
-    security: [{ BearerAuth: [] }],
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       params: z.object({ id: UUIDSchema }),

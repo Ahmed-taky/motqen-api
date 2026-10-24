@@ -5,7 +5,8 @@
 
 import AppError from '../errors/AppError.js';
 import { asyncHandler } from '../types/asyncHandler.js';
-import { verifyHeaderToken } from '../utils/tokens.js';
+import { verifyHeaderToken, verifyRawToken } from '../utils/tokens.js';
+import { getAccessTokenCookie, getRefreshTokenCookie } from '../utils/cookies.js';
 import { getHeaderValue } from '../utils/HTTTHeaders.js';
 import { userService } from '../state.js';
 import { redisClearCache, redisRetreiveOrCache } from '../utils/redis.js';
@@ -53,11 +54,10 @@ export const authenticateRegister = asyncHandler(async (req, _, next) => {
 /**
  */
 export const authenticateAccess = asyncHandler(async (req, _, next) => {
-  const authHeader = req.headers.authorization;
   const role = req.headers['x-user-type'] ? (req.headers['x-user-type'] as string).toUpperCase() : undefined;
 
   try {
-    const payload = verifyHeaderToken(authHeader, 'access');
+    const payload = verifyRawToken(getAccessTokenCookie(req), 'access');
     req.userState = await redisRetreiveOrCache('access:' + payload.userId, async () => {
       return await userService.getStatus({ filter: { id: payload.userId } });
     });
@@ -97,9 +97,8 @@ export const authenticateAccess = asyncHandler(async (req, _, next) => {
 /**
  */
 export const authenticateRefresh = asyncHandler(async (req, _, next) => {
-  const authHeader = req.headers.authorization;
   try {
-    const payload = verifyHeaderToken(authHeader, 'refresh');
+    const payload = verifyRawToken(getRefreshTokenCookie(req), 'refresh');
     req.userState = await redisRetreiveOrCache('access:' + payload.userId, async () => {
       return await userService.getStatus({ filter: { id: payload.userId } });
     });

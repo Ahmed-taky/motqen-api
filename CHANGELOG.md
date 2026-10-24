@@ -2,6 +2,11 @@
 
 ## [Unreleased] - 2026-06-13
 
+### Security
+- **Auth tokens moved to httpOnly cookies**: The access and refresh tokens are no longer returned in the JSON body. `/auth/login`, `/auth/register-client`, `/auth/register-worker`, and the dashboard profile-creation endpoints now set them as httpOnly cookies (`motqen_access_token`, `motqen_refresh_token`), and `/auth/logout` clears them. The one-time login/register token from `/auth/otp/verify` is still sent as a Bearer token.
+- **Cookie-only authentication**: `authenticateAccess` and `authenticateRefresh` now read the token from the request cookies instead of the `Authorization` header. Socket.IO handshakes fall back to the access token cookie when `handshake.auth.token` is absent.
+- Added `cookie-parser` and enabled `credentials` on the CORS layer. Cookie behaviour is configurable via `COOKIE_*` environment variables.
+
 ### Changed
 - **Architectural Standardization (The Quartet Pattern)**: Migrated the entire routing and validation layer to a strictly typed "Quartet" structure (`Request`, `Response`, `Query`, `Params`) per endpoint.
 - **Unified Filtering & Pagination**: Removed deprecated `buildFilterSchema` and `FilterDescriptor` types. Introduced `createFilterMetadata` for entity sorting definitions and `createQuerySchema` to universally generate robust pagination, sorting, and dynamic filtering schemas.

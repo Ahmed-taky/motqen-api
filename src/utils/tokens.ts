@@ -71,3 +71,23 @@ export function verifyHeaderToken<T extends keyof TokenTypeMap>(
   if (!decoded) throw new AppError('Unauthorized, invalid token', 401);
   return decoded;
 }
+
+/**
+ * Verifies and decodes a raw token (e.g. coming from a cookie)
+ * @throws {AppError} 401 if the token is missing, invalid or expired
+ */
+export function verifyRawToken<T extends keyof TokenTypeMap>(
+  token: string | undefined,
+  type: T
+): TokenTypeMap[T] {
+  if (!token) throw new AppError(`Unauthorized, ${type} token not found`, 401);
+
+  try {
+    const decoded = verifyAndDecodeToken(token, type);
+    if (!decoded) throw new AppError('Unauthorized, invalid token', 401);
+    return decoded;
+  } catch (error) {
+    if (error instanceof AppError) throw error;
+    throw new AppError('Unauthorized, invalid or expired token', 401);
+  }
+}

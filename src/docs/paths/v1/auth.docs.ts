@@ -115,7 +115,7 @@ export default function registerAuthDocs(registry: OpenAPIRegistry) {
     tags: ['Auth'],
     summary: 'Register a new client',
     description:
-      'Registers a new client user. Requires a register token (from OTP verify) as Bearer token. Send as multipart/form-data with `userData` (JSON string) and optional `personal_image`.',
+      'Registers a new client user. Requires a register token (from OTP verify) as Bearer token. Send as multipart/form-data with `userData` (JSON string) and optional `personal_image`. On success the access and refresh tokens are set as httpOnly cookies.',
     security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
@@ -160,7 +160,7 @@ export default function registerAuthDocs(registry: OpenAPIRegistry) {
     tags: ['Auth'],
     summary: 'Register a new worker',
     description:
-      'Registers a new worker user. Requires a register token (from OTP verify) as Bearer token. Send as multipart/form-data with `userData`, `workerProfile` (JSON strings) and required images: personal_image, id_image, personal_with_id_image.',
+      'Registers a new worker user. Requires a register token (from OTP verify) as Bearer token. Send as multipart/form-data with `userData`, `workerProfile` (JSON strings) and required images: personal_image, id_image, personal_with_id_image. On success the access and refresh tokens are set as httpOnly cookies.',
     security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
@@ -212,7 +212,7 @@ export default function registerAuthDocs(registry: OpenAPIRegistry) {
     tags: ['Auth'],
     summary: 'Login',
     description:
-      'Authenticates an existing user using a login token (from OTP verify) and creates a session. Set it as Bearer <token> in the Authorization header.',
+      'Authenticates an existing user using a login token (from OTP verify) and creates a session. Set it as Bearer <token> in the Authorization header. On success the access and refresh tokens are set as httpOnly cookies.',
     security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
@@ -243,8 +243,9 @@ export default function registerAuthDocs(registry: OpenAPIRegistry) {
     path: '/api/v1/auth/logout',
     tags: ['Auth'],
     summary: 'Logout',
-    description: "Revokes the user's current session. Requires a valid access token.",
-    security: [{ BearerAuth: [] }],
+    description:
+      "Revokes the user's current session and clears the auth cookies. Requires a valid access token cookie.",
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: LogoutQuerySchema,
@@ -273,8 +274,8 @@ export default function registerAuthDocs(registry: OpenAPIRegistry) {
     tags: ['Auth'],
     summary: 'Refresh access token',
     description:
-      'Generates a new access token using a valid refresh token in the Authorization header.',
-    security: [{ BearerAuth: [] }],
+      'Generates a new access token using the refresh token cookie and sets it as an httpOnly cookie.',
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: GenerateAccessTokenQuerySchema,
@@ -303,8 +304,8 @@ export default function registerAuthDocs(registry: OpenAPIRegistry) {
     tags: ['Auth'],
     summary: 'Check review / approval status',
     description:
-      'Returns whether the authenticated user (worker) has been approved by an admin. Requires access token.',
-    security: [{ BearerAuth: [] }],
+      'Returns whether the authenticated user (worker) has been approved by an admin. Requires the access token cookie.',
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: ReviewStatusQuerySchema,
@@ -333,8 +334,8 @@ export default function registerAuthDocs(registry: OpenAPIRegistry) {
     tags: ['Auth'],
     summary: 'Update FCM token',
     description:
-      'Updates the Firebase Cloud Messaging token for the current user session. This token is used to send push notifications to the device.',
-    security: [{ BearerAuth: [] }],
+      'Updates the Firebase Cloud Messaging token for the current user session. This token is used to send push notifications to the device. Requires the access token cookie.',
+    security: [{ CookieAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: UpdateFcmTokenQuerySchema,

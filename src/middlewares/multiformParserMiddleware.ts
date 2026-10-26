@@ -1,4 +1,6 @@
 import { asyncHandler } from 'src/types/asyncHandler.js';
+import { z } from 'src/libs/zod.js';
+import ValidationError from 'src/errors/ValidationError.js';
 
 export const parseFormDataJson = (fieldName: string = 'data') => asyncHandler(async (req, _, next) => {
     try {
@@ -7,11 +9,18 @@ export const parseFormDataJson = (fieldName: string = 'data') => asyncHandler(as
 
       for (const [key, value] of Object.entries(formData)) {
         if (key === fieldName && typeof value === 'string') {
-          // Parse the stringified JSON
           try {
             parsedBody[key] = JSON.parse(value);
           } catch (e) {
-            parsedBody[key] = value; // Fallback to original string if parsing fails
+            next(
+              new ValidationError(
+                `Invalid JSON in "${key}" field: ${(e as SyntaxError).message}`,
+                new z.ZodError([
+                  { code: 'custom', input: value, path: [key], message: 'must be valid JSON' },
+                ] as never)
+              )
+            );
+            return;
           }
         } else if (value instanceof File) {
           parsedBody[key] = value;

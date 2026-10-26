@@ -27,7 +27,7 @@ export default function registerChatDocs(registry: OpenAPIRegistry) {
     summary: 'Get or create a conversation between a Worker and a Client',
     description:
       'Idempotent — returns the existing conversation if one already exists for the given Worker + Client pair. Creates a new one otherwise. Only Worker ↔ Client pairs are allowed. A user cannot start a conversation with themselves.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       body: {
@@ -56,7 +56,7 @@ export default function registerChatDocs(registry: OpenAPIRegistry) {
     summary: 'List all conversations for the authenticated user',
     description:
       'Returns all conversations the authenticated user participates in, ordered by most recently updated. Each item includes unreadCount, lastMessage preview, and partner public info. This is the app-open HTTP sync endpoint.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: ConversationListQuerySchema,
@@ -81,7 +81,7 @@ export default function registerChatDocs(registry: OpenAPIRegistry) {
     summary: 'Unread conversations snapshot (offline sync)',
     description:
       'Returns only conversations with unread messages (unreadCount > 0). Same shape as GET /conversations but filtered. Use for app-open badge count or notification summary.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       query: UnreadConversationQuerySchema,
@@ -106,7 +106,7 @@ export default function registerChatDocs(registry: OpenAPIRegistry) {
     summary: 'Paginated message history (cursor-based by messageNumber)',
     description:
       'Returns a page of messages in ascending order (oldest first). Uses messageNumber as the cursor for stable pagination. Only accessible by participants of the conversation.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       params: ConversationIdParamsSchema,
@@ -135,7 +135,7 @@ export default function registerChatDocs(registry: OpenAPIRegistry) {
     summary: 'Fetch missed messages after socket reconnect',
     description:
       'Called by the client after receiving a `missed_messages_available` socket event on reconnect. Returns all messages with messageNumber > after (up to 100).',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     request: {
       params: ConversationIdParamsSchema,

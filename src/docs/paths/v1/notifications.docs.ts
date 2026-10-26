@@ -13,7 +13,7 @@ export default function registerNotificationsDocs(registry: OpenAPIRegistry) {
     tags: ['Notifications'],
     summary: 'Get user notifications',
     description: 'Retrieves a paginated list of notifications for the authenticated user.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [
       { $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' },
       {
@@ -51,7 +51,7 @@ export default function registerNotificationsDocs(registry: OpenAPIRegistry) {
     tags: ['Notifications'],
     summary: 'Mark all notifications as read',
     description: 'Marks all notifications for the authenticated user as read.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }, { $ref: '#/components/parameters/UserType' }],
     responses: createResponseDoc({
       successfulResponse: {

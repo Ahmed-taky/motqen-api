@@ -131,7 +131,6 @@ import {
 } from '../schemas/requests/dashboard.request.js';
 import { clientProfileService, authService, userService, workerProfileService } from '../state.js';
 import { asyncHandler } from '../types/asyncHandler.js';
-import { setAuthCookies } from '../utils/cookies.js';
 import { parseQuery } from '../schemas/common.js';
 import { LoggedInUser } from 'src/domain/user.entity.js';
 import { IDType } from 'src/repositories/interfaces/Repository.js';
@@ -199,12 +198,11 @@ export const createClientProfile = asyncHandler<CreateClientProfileResponseDTO, 
     refreshToken,
   });
 
-  setAuthCookies(res, { accessToken, refreshToken });
 
   res.status(200).send({
     status: 'success',
     message: 'created client profile successfully',
-    data: { clientProfile },
+    data: { clientProfile, accessToken, refreshToken },
   });
 });
 
@@ -269,12 +267,10 @@ export const createWorkerProfile = asyncHandler<CreateWorkerProfileResponseDTO, 
     refreshToken,
   });
 
-  setAuthCookies(res, { accessToken, refreshToken });
-
   res.status(200).send({
     status: 'success',
     message: 'created worker profile successfully',
-    data: { workerProfile },
+    data: { workerProfile, accessToken, refreshToken },
   });
 });
 

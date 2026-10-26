@@ -1,7 +1,6 @@
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import cookieParser from 'cookie-parser';
 import v1Router from './routes/v1/api.js';
 import errorHandler from './middlewares/errorMiddleware.js';
 import redisClient from './libs/redis.js';
@@ -9,20 +8,17 @@ import prismaClient from './libs/database.js';
 import swaggerUi from 'swagger-ui-express';
 import { asyncHandler } from './types/asyncHandler.js';
 import { generateOpenAPISpec } from './libs/openapi.js';
-import environment from './configs/environment.js';
 
 const app = express();
 
 app.use(helmet());
 app.use(
   cors({
-    origin: environment.frontend.url || true,
-    credentials: true,
+    origin: '*',
   })
 );
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cookieParser());
 
 app.use('/api/v1', v1Router);
 

@@ -53,11 +53,15 @@ export type GetWorkerOrdersStatisticsResponseDTO = z.infer<typeof GetWorkerOrder
 
 export const CreateClientProfileResponseSchema = SuccessResponseSchema(z.object({
   clientProfile: ClientProfileViewSchema,
+  accessToken: z.string(),
+  refreshToken: z.string(),
 }),);
 export type CreateClientProfileResponseDTO = z.infer<typeof CreateClientProfileResponseSchema>;
 
 export const CreateWorkerProfileResponseSchema = SuccessResponseSchema(z.object({
   workerProfile: WorkerProfileViewSchema,
+  accessToken: z.string(),
+  refreshToken: z.string(),
 }),);
 export type CreateWorkerProfileResponseDTO = z.infer<typeof CreateWorkerProfileResponseSchema>;
 

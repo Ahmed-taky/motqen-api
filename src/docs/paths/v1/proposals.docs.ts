@@ -42,7 +42,7 @@ export default function registerProposalsDocs(registry: OpenAPIRegistry) {
     summary: 'Submit a proposal for a global order',
     description:
       'Allows a verified and approved worker to submit a proposal with a price offer and optional note to an open global order.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: SubmitProposalQuerySchema,
@@ -80,7 +80,7 @@ export default function registerProposalsDocs(registry: OpenAPIRegistry) {
     summary: 'List proposals for a specific order',
     description:
       'Returns a list of all proposals submitted for the specified order. Accessible only by the client who created the order or an admin.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: ListProposalsQuerySchema,
@@ -110,7 +110,7 @@ export default function registerProposalsDocs(registry: OpenAPIRegistry) {
     summary: 'Get details of a my proposal as a worker on a specific order',
     description:
       'Returns the details of my proposal as a worker on a specific order, includes worker profile summary and latest negotiation. Accessible only by submitting worker.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: GetMyProposalQuerySchema,
@@ -140,7 +140,7 @@ export default function registerProposalsDocs(registry: OpenAPIRegistry) {
     summary: 'Get details of a specific proposal',
     description:
       'Returns the details of a single proposal including worker profile summary and latest negotiation. Accessible only by the order client owner or the submitting worker.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: GetProposalByIdQuerySchema,
@@ -171,7 +171,7 @@ export default function registerProposalsDocs(registry: OpenAPIRegistry) {
     summary: 'Get negotiation history for a proposal',
     description:
       'Returns the full negotiation history for the specified proposal, sorted by createdAt DESC. Only the client of the order or the assigned worker can access it.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: GetNegotiationsQuerySchema,
@@ -200,7 +200,7 @@ export default function registerProposalsDocs(registry: OpenAPIRegistry) {
     summary: 'Create a new negotiation offer',
     description:
       'Submit a new price offer and time for the proposal. Only allowed when order status is PENDING. Blocked if the previous offer is still PENDING. Direction is inferred from the requester\'s role. The response may contain a hasOverlapWarning boolean flag indicating if the proposed time overlaps with the worker\'s other occupied time slots.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: CreateNegotiationQuerySchema,
@@ -232,7 +232,7 @@ export default function registerProposalsDocs(registry: OpenAPIRegistry) {
     summary: 'Accept the latest pending negotiation',
     description:
       'Accepts the most recent PENDING negotiation. Only the opponent of the offer creator can accept. Atomically sets negotiation.status = ACCEPTED, order.finalPrice = negotiation.price, order.orderStatus = PRICE_AGREED.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: AcceptNegotiationQuerySchema,
@@ -263,7 +263,7 @@ export default function registerProposalsDocs(registry: OpenAPIRegistry) {
     summary: 'Reject the latest pending negotiation',
     description:
       'Rejects the most recent PENDING negotiation. Only the opponent of the offer creator can reject. Sets negotiation.status = REJECTED, unlocking new offers.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: RejectNegotiationQuerySchema,
@@ -293,7 +293,7 @@ export default function registerProposalsDocs(registry: OpenAPIRegistry) {
     summary: 'Cancel the latest pending negotiation',
     description:
       'Cancels the most recent PENDING negotiation. Only the owner of the offer creator can reject. Sets negotiation.status = CANCELLED, unlocking new offers.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: CancelNegotiationQuerySchema,

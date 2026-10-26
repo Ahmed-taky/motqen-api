@@ -52,7 +52,6 @@
     "@whiskeysockets/baileys": "^7.0.0-rc.9",
     "axios": "^1.15.0",
     "cloudinary": "^2.9.0",
-    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.2.4",
     "express": "^5.2.1",
@@ -76,7 +75,6 @@
   "devDependencies": {
     "@swc/cli": "^0.8.1",
     "@swc/core": "^1.15.40",
-    "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",

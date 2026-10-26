@@ -106,7 +106,7 @@ export default function registerGovernmentsDocs(registry: OpenAPIRegistry) {
     tags: ['Governments'],
     summary: 'Create government (Admin)',
     description: 'Creates a new government. Requires admin access token.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: CreateGovernmentQuerySchema,
@@ -137,7 +137,7 @@ export default function registerGovernmentsDocs(registry: OpenAPIRegistry) {
     tags: ['Governments'],
     summary: 'Update government (Admin)',
     description: 'Updates an existing government by UUID. Requires admin access token.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: UpdateGovernmentQuerySchema,
@@ -169,7 +169,7 @@ export default function registerGovernmentsDocs(registry: OpenAPIRegistry) {
     tags: ['Governments'],
     summary: 'Delete government (Admin)',
     description: 'Deletes a government by UUID. Requires admin access token.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: DeleteGovernmentQuerySchema,
@@ -197,7 +197,7 @@ export default function registerGovernmentsDocs(registry: OpenAPIRegistry) {
     tags: ['Governments'],
     summary: 'Get cities by government',
     description: 'Returns all cities under a specific government.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       params: GetCitiesByGovernmentParamsSchema,
@@ -250,7 +250,7 @@ export default function registerGovernmentsDocs(registry: OpenAPIRegistry) {
     tags: ['Governments', 'Cities'],
     summary: 'Create city (Admin)',
     description: 'Creates a new city under a specific government. Requires admin access token.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: CreateCityQuerySchema,
@@ -282,7 +282,7 @@ export default function registerGovernmentsDocs(registry: OpenAPIRegistry) {
     tags: ['Governments', 'Cities'],
     summary: 'Update city (Admin)',
     description: 'Updates an existing city by UUID. Requires admin access token.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: UpdateCityQuerySchema,
@@ -314,7 +314,7 @@ export default function registerGovernmentsDocs(registry: OpenAPIRegistry) {
     tags: ['Governments', 'Cities'],
     summary: 'Delete city (Admin)',
     description: 'Deletes a city by UUID. Requires admin access token.',
-    security: [{ CookieAuth: [] }],
+    security: [{ BearerAuth: [] }],
     parameters: [{ $ref: '#/components/parameters/DeviceFingerprint' }],
     request: {
       query: DeleteCityQuerySchema,

@@ -7,7 +7,6 @@
  */
 
 import { verifyAndDecodeToken } from '../utils/tokens.js';
-import { ACCESS_TOKEN_COOKIE, parseCookieHeader } from '../utils/cookies.js';
 import { redisRetreiveOrCache } from '../utils/redis.js';
 import { userService } from '../state.js';
 import AppError from '../errors/AppError.js';
@@ -16,16 +15,14 @@ import { AccessTokenPayload } from '../types/tokens.js';
 
 /**
  * Socket.IO middleware that authenticates the connection via JWT access token.
- * The token is read from the access token cookie sent with the handshake,
- * falling back to socket.handshake.auth.token.
+ * The token must be passed in socket.handshake.auth.token.
  *
  * On success, attaches to socket.data:
  *   - userId      {string}
  *   - userState   {object}  — same shape as req.userState in HTTP middleware
  */
 export const socketAuth = async (socket: Socket, next: (err?: ExtendedError) => void) => {
-  const cookieToken = parseCookieHeader(socket.handshake.headers?.cookie)[ACCESS_TOKEN_COOKIE];
-  const token = cookieToken ?? socket.handshake.auth?.token;
+  const token = socket.handshake.auth?.token;
   if (!token) {
     return next(new AppError('Unauthorized, handshake token is not found', 401));
   }

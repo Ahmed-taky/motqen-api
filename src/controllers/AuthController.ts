@@ -47,23 +47,12 @@ import AppError from '../errors/AppError.js';
 import { authService, rateLimitService, presenceService, notificationService } from '../state.js';
 import { asyncHandler } from '../types/asyncHandler.js';
 import prisma from '../libs/database.js';
-import {
-  clearAuthCookies,
-  getRefreshTokenCookie,
-  setAccessTokenCookie,
-  setAuthCookies,
-} from '../utils/cookies.js';
 
 /**
  * Request OTP for phone number verification
  * @description Initiates OTP request by generating and sending OTP to the provided phone number
  */
-export const requestOTP = asyncHandler<
-  RequestOTPResponseDTO,
-  RequestOTPRequestDTO,
-  RequestOTPQueryDTO,
-  RequestOTPParamsDTO
->(async (req, res) => {
+export const requestOTP = asyncHandler<RequestOTPResponseDTO, RequestOTPRequestDTO, RequestOTPQueryDTO, RequestOTPParamsDTO>(async (req, res) => {
   const { method, phoneNumber } = req.parsed!.body!;
   const deviceId = req.deviceId;
 
@@ -71,25 +60,14 @@ export const requestOTP = asyncHandler<
 
   await authService.requestOTP(phoneNumber, method);
 
-  res
-    .status(200)
-    .send({
-      status: 'success',
-      message: 'OTP sent successfully',
-      data: { phoneNumber, method, cooldown },
-    });
+  res.status(200).send({ status: 'success', message: 'OTP sent successfully', data: { phoneNumber, method, cooldown } });
 });
 
 /**
  * Verify OTP and return login or register token
  * @description Verifies the OTP and returns either a login or register token based on user existence
  */
-export const verifyOTP = asyncHandler<
-  VerifyOTPResponseDTO,
-  VerifyOTPRequestDTO,
-  VerifyOTPQueryDTO,
-  VerifyOTPParamsDTO
->(async (req, res) => {
+export const verifyOTP = asyncHandler<VerifyOTPResponseDTO, VerifyOTPRequestDTO, VerifyOTPQueryDTO, VerifyOTPParamsDTO>(async (req, res) => {
   const { phoneNumber, otp, method } = req.parsed!.body!;
   const deviceId = req.deviceId;
 
@@ -111,12 +89,7 @@ export const verifyOTP = asyncHandler<
  * Register a new client user
  * @description Registers a new client user with basic profile information
  */
-export const registerClient = asyncHandler<
-  RegisterClientResponseDTO,
-  RegisterClientRequestDTO,
-  RegisterClientQueryDTO,
-  RegisterClientParamsDTO
->(async (req, res) => {
+export const registerClient = asyncHandler<RegisterClientResponseDTO, RegisterClientRequestDTO, RegisterClientQueryDTO, RegisterClientParamsDTO>(async (req, res) => {
   const deviceId = req.deviceId;
   const { userData } = req.parsed!.body!;
   const { firstName, middleName, lastName, location } = userData;
@@ -125,7 +98,6 @@ export const registerClient = asyncHandler<
   if (!rawToken) throw new AppError('Unauthorized, register token not found', 401);
 
   const { phoneNumber } = await authService.consumeRegisterToken(rawToken);
-
   const image = req.file;
 
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
@@ -142,7 +114,7 @@ export const registerClient = asyncHandler<
     {}
   );
 
-  const { unHashedRefreshToken: refreshToken } = await authService.login({
+  const { unHashedRefreshToken } = await authService.login({
     phoneNumber,
     deviceId,
     expiresAt,
@@ -152,15 +124,13 @@ export const registerClient = asyncHandler<
     deviceId,
     userId: user.id,
     isAdmin: false,
-    refreshToken,
+    refreshToken: unHashedRefreshToken,
   });
-
-  setAuthCookies(res, { accessToken, refreshToken });
 
   res.status(201).send({
     status: 'success',
     message: 'User created successfully',
-    data: { user, clientProfile: profile },
+    data: { user, clientProfile: profile, accessToken, refreshToken: unHashedRefreshToken },
   });
 });
 
@@ -168,12 +138,7 @@ export const registerClient = asyncHandler<
  * Register a new worker user
  * @description Registers a new worker user with professional profile information
  */
-export const registerWorker = asyncHandler<
-  RegisterWorkerResponseDTO,
-  RegisterWorkerRequestDTO,
-  RegisterWorkerQueryDTO,
-  RegisterWorkerParamsDTO
->(async (req, res) => {
+export const registerWorker = asyncHandler<RegisterWorkerResponseDTO, RegisterWorkerRequestDTO, RegisterWorkerQueryDTO, RegisterWorkerParamsDTO>(async (req, res) => {
   const { userData, workerProfile } = req.parsed!.body!;
   const { firstName, middleName, lastName, location } = userData;
   const { experienceYears, isInTeam, acceptsUrgentJobs, specializationsTree, workGovernmentIds } =
@@ -214,7 +179,7 @@ export const registerWorker = asyncHandler<
     }
   );
 
-  const { unHashedRefreshToken: refreshToken } = await authService.login({
+  const { unHashedRefreshToken } = await authService.login({
     phoneNumber,
     deviceId,
     expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
@@ -224,15 +189,13 @@ export const registerWorker = asyncHandler<
     deviceId,
     userId: user.id,
     isAdmin: false,
-    refreshToken,
+    refreshToken: unHashedRefreshToken,
   });
-
-  setAuthCookies(res, { accessToken, refreshToken });
 
   res.status(201).send({
     status: 'success',
     message: 'User created successfully',
-    data: { user, workerProfile: profile },
+    data: { user, workerProfile: profile, accessToken, refreshToken: unHashedRefreshToken },
   });
 });
 
@@ -240,47 +203,38 @@ export const registerWorker = asyncHandler<
  * Login an existing user and create session
  * @description Authenticates user with login token and creates a new session
  */
-export const login = asyncHandler<LoginResponseDTO, LoginRequestDTO, LoginQueryDTO, LoginParamsDTO>(
-  async (req, res) => {
-    const deviceId = req.deviceId;
-    const rawToken = req.headers['authorization']?.split(' ')[1];
-    if (!rawToken) throw new AppError('Unauthorized, login token not found', 401);
+export const login = asyncHandler<LoginResponseDTO, LoginRequestDTO, LoginQueryDTO, LoginParamsDTO>(async (req, res) => {
+  const deviceId = req.deviceId;
+  const rawToken = req.headers['authorization']?.split(' ')[1];
+  if (!rawToken) throw new AppError('Unauthorized, login token not found', 401);
 
-    const { phoneNumber } = await authService.consumeLoginToken(rawToken);
+  const { phoneNumber } = await authService.consumeLoginToken(rawToken);
 
-    const { unHashedRefreshToken: refreshToken, user } = await authService.login({
-      phoneNumber,
-      deviceId,
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    });
+  const { unHashedRefreshToken, user } = await authService.login({
+    phoneNumber,
+    deviceId,
+    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+  });
 
-    const accessToken = await authService.generateAccessToken({
-      deviceId,
-      userId: user.id,
-      isAdmin: false,
-      refreshToken,
-    });
+  const accessToken = await authService.generateAccessToken({
+    deviceId,
+    userId: user.id,
+    isAdmin: false,
+    refreshToken: unHashedRefreshToken,
+  });
 
-    setAuthCookies(res, { accessToken, refreshToken });
-
-    res.status(200).send({
-      status: 'success',
-      message: 'login successfully',
-      data: { user },
-    });
-  }
-);
+  res.status(200).send({
+    status: 'success',
+    message: 'login successfully',
+    data: { user, refreshToken: unHashedRefreshToken, accessToken },
+  });
+});
 
 /**
  * Logout user and revoke session
  * @description Revokes the user's session based on device fingerprint and cleans up presence
  */
-export const logout = asyncHandler<
-  LogoutResponseDTO,
-  LogoutRequestDTO,
-  LogoutQueryDTO,
-  LogoutParamsDTO
->(async (req, res) => {
+export const logout = asyncHandler<LogoutResponseDTO, LogoutRequestDTO, LogoutQueryDTO, LogoutParamsDTO>(async (req, res) => {
   const deviceId = req.deviceId;
   const userId = req.userState.userId;
 
@@ -332,27 +286,19 @@ export const logout = asyncHandler<
     await presenceService.handleUserOffline({ userId, reason: 'logout' });
   }
 
-  clearAuthCookies(res);
-
   res.status(200).send({ status: 'success', message: 'Logged out successfully' });
 });
 
 /**
  * Generate new access token using refresh token
- * @description Validates the refresh token cookie and issues a new access token cookie
+ * @description Validates refresh token and generates a new access token
  */
-export const generateAccessToken = asyncHandler<
-  GenerateAccessTokenResponseDTO,
-  GenerateAccessTokenRequestDTO,
-  GenerateAccessTokenQueryDTO,
-  GenerateAccessTokenParamsDTO
->(async (req, res) => {
+export const generateAccessToken = asyncHandler<GenerateAccessTokenResponseDTO, GenerateAccessTokenRequestDTO, GenerateAccessTokenQueryDTO, GenerateAccessTokenParamsDTO>(async (req, res) => {
   const deviceId = String(req.headers['x-device-fingerprint']);
   const { userId } = req.userState;
   const adminState = req.adminState;
 
-  const refreshToken = getRefreshTokenCookie(req);
-  if (!refreshToken) throw new AppError('Unauthorized, refresh token not found', 401);
+  const refreshToken = req.headers['authorization']?.split(' ')[1];
 
   const accessToken = await authService.generateAccessToken({
     deviceId,
@@ -361,30 +307,15 @@ export const generateAccessToken = asyncHandler<
     refreshToken,
   });
 
-  setAccessTokenCookie(res, accessToken);
-
-  res
-    .status(200)
-    .send({ status: 'success', message: 'Access token generated successfully', data: {} });
+  res.status(200).send({ status: 'success', message: 'Access token generated successfully', data: { accessToken } });
 });
 
 /**
  * Reviews the status of a user (pending, approved, rejected)
  */
-export const reviewStatus = asyncHandler<
-  ReviewStatusResponseDTO,
-  ReviewStatusRequestDTO,
-  ReviewStatusQueryDTO,
-  ReviewStatusParamsDTO
->(async (req, res) => {
+export const reviewStatus = asyncHandler<ReviewStatusResponseDTO, ReviewStatusRequestDTO, ReviewStatusQueryDTO, ReviewStatusParamsDTO>(async (req, res) => {
   if (req.userState.role === 'CLIENT') {
-    res
-      .status(200)
-      .send({
-        status: 'success',
-        message: 'You are a client, you can whatever you want <3',
-        data: { reason: 'You are a client', status: 'APPROVED' },
-      });
+    res.status(200).send({ status: 'success', message: 'You are a client, you can whatever you want <3', data: { reason: 'You are a client', status: 'APPROVED' } });
     return;
   }
 
@@ -393,18 +324,10 @@ export const reviewStatus = asyncHandler<
     const reason = req.userState.worker.verification.reason;
     const status = req.userState.worker.verification.status;
     if (!isApproved) {
-      res
-        .status(200)
-        .send({ status: 'success', message: 'You are not approved yet', data: { reason, status } });
+      res.status(200).send({ status: 'success', message: 'You are not approved yet', data: { reason, status } });
       return;
     }
-    res
-      .status(200)
-      .send({
-        status: 'success',
-        message: 'You have been approved by admin',
-        data: { reason: '', status },
-      });
+    res.status(200).send({ status: 'success', message: 'You have been approved by admin', data: { reason: '', status } });
     return;
   }
 
@@ -414,12 +337,7 @@ export const reviewStatus = asyncHandler<
 /**
  * Update FCM token for the current session
  */
-export const updateFcmToken = asyncHandler<
-  UpdateFcmTokenResponseDTO,
-  UpdateFcmTokenRequestDTO,
-  UpdateFcmTokenQueryDTO,
-  UpdateFcmTokenParamsDTO
->(async (req, res) => {
+export const updateFcmToken = asyncHandler<UpdateFcmTokenResponseDTO, UpdateFcmTokenRequestDTO, UpdateFcmTokenQueryDTO, UpdateFcmTokenParamsDTO>(async (req, res) => {
   const userId = req.userState.userId;
   const adminState = req.adminState;
   const deviceId = req.deviceId;
